@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+import pandas as pd
 
 from joblib import load
 pipeline = load('assets/pipeline.joblib')
@@ -11,20 +12,8 @@ pipeline = load('assets/pipeline.joblib')
 # Imports from this application
 from app import app
 
-import pandas as pd
+
 print('LOL')
-@app.callback(
-    Output('prediction-content', 'children'),
-    [Input('carat', 'value'), Input('cut', 'value'), Input('color', 'value'), Input('clarity', 'value'), Input('depth', 'value'), Input('table', 'value'), Input('length', 'value'), Input('width', 'value'), Input('depth_mm ', 'value')],
-)
-def predict(carat, cut, color, clarity, depth, table, length, width, depth_mm):
-    df = pd.DataFrame(
-        columns=['carat', 'cut', 'color', 'clarity', 'depth', 'table', 'length', 'width', 'depth_mm' ], 
-        data=[[carat, cut, color, clarity, depth, table, length, width, depth_mm]]
-    )
-    print(df[0])
-    y_pred = pipeline.predict(df)[0]
-    return y_pred
 
 # 2 column layout. 1st column width = 4/12
 # https://dash-bootstrap-components.opensource.faculty.ai/l/components/layout
@@ -153,5 +142,21 @@ column2 = dbc.Col(
     ],
     md=7,
 )
+@app.callback(
+    Output('prediction-content', 'children'),
+    [Input('carat', 'value'), Input('cut', 'value'), Input('color', 'value'), Input('clarity', 'value'), Input('depth', 'value'), Input('table', 'value'), Input('length', 'value'), Input('width', 'value'), Input('depth_mm', 'value')]
+)
+def predict(carat, cut, color, clarity, depth, table, length, width, depth_mm):
+    # print(carat, cut, color, clarity, depth, table, length, width, depth_mm)
+
+    
+    df = pd.DataFrame(
+        columns=['carat', 'cut', 'color', 'clarity', 'depth', 'table', 'length', 'width', 'depth_mm' ], 
+        data=[[carat, cut, color, clarity, depth, table, length, width, depth_mm]]
+    )
+    print(df)
+    y_pred = pipeline.predict(df)[0]
+    print(y_pred)
+    return '$' + str(y_pred)
 
 layout = dbc.Row([column1, column2])
