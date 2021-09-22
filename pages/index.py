@@ -16,19 +16,19 @@ column1 = dbc.Col(
         dcc.Markdown(
             """
         
-            ## Your Value Proposition
+            ## Predict The Diamond Price
+            💎 
 
-            Emphasize how the app will benefit users. Don't emphasize the underlying technology.
+            Check the real Diamond price before buying it! Save money, buy smart!
 
-            ✅ RUN is a running app that adapts to your fitness levels and designs personalized workouts to help you improve your running.
+            💎 
 
-            ❌ RUN is the only intelligent running app that uses sophisticated deep neural net machine learning to make your run smarter because we believe in ML driven workouts.
 
             """
         ),
-        dcc.Link(dbc.Button('Your Call To Action', color='primary'), href='/predictions')
+        dcc.Link(dbc.Button('Diamond Price', color='primary'), href='/predictions')
     ],
-    md=4,
+    md=7,
 )
 
 gapminder = px.data.gapminder()
@@ -37,7 +37,7 @@ fig = px.scatter(gapminder.query("year==2007"), x="gdpPercap", y="lifeExp", size
 
 column2 = dbc.Col(
     [
-        dcc.Graph(figure=fig),
+      html.Img(src='https://raw.githubusercontent.com/Katerynapass/New/master/580b585b2edbce24c47b23f7.png', className='img-fluid')
     ]
 )
 
